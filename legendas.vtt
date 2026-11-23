@@ -1,0 +1,441 @@
+WEBVTT
+
+1
+00:00:08.980 --> 00:00:11.200
+Dois milhões de medições.
+
+2
+00:00:11.240 --> 00:00:13.500
+Quatro anos. Uma única casa.
+
+3
+00:00:13.540 --> 00:00:16.480
+Olhando só para o medidor de
+energia, minuto a minuto,
+
+4
+00:00:16.520 --> 00:00:18.680
+dá para descobrir como uma família vive?
+
+5
+00:00:18.720 --> 00:00:21.530
+E, mais importante: que
+tarifa faz sentido para ela?
+
+6
+00:00:22.947 --> 00:00:26.787
+Uma distribuidora quer criar
+planos tarifários personalizados.
+
+7
+00:00:26.827 --> 00:00:30.867
+Hoje, o quilowatt-hora custa o mesmo
+às três da manhã e às oito da noite.
+
+8
+00:00:30.907 --> 00:00:33.227
+Mas para a rede elétrica
+não é a mesma coisa:
+
+9
+00:00:33.267 --> 00:00:36.547
+o pico do começo da noite exige
+uma rede dimensionada para ele.
+
+10
+00:00:36.587 --> 00:00:41.567
+A pergunta é: que comportamentos de consumo
+existem, e quando cada um pesa na rede?
+
+11
+00:00:42.967 --> 00:00:44.367
+Os dados vêm do repositório UCI:
+
+12
+00:00:44.407 --> 00:00:48.007
+uma casa perto de Paris, medida a
+cada minuto por quase quatro anos.
+
+13
+00:00:48.047 --> 00:00:53.307
+Depois da limpeza, ficamos com mil
+quatrocentos e dezoito dias completos.
+
+14
+00:00:53.347 --> 00:00:54.947
+A série já conta uma história:
+
+15
+00:00:54.987 --> 00:00:56.847
+no inverno, que lá vai
+de dezembro a fevereiro,
+
+16
+00:00:56.887 --> 00:01:02.187
+a casa consome trinta e quatro
+quilowatts-hora por dia, o dobro do verão.
+
+17
+00:01:02.227 --> 00:01:03.767
+E todo agosto o consumo despenca.
+
+18
+00:01:06.827 --> 00:01:11.607
+Juntando hora do dia e semana do
+ano, o consumo vira uma paisagem.
+
+19
+00:01:11.647 --> 00:01:13.867
+As montanhas são as noites de inverno.
+
+20
+00:01:13.907 --> 00:01:16.737
+Os vales são as madrugadas
+e as férias de agosto.
+
+21
+00:01:18.233 --> 00:01:22.333
+Uma técnica clássica de séries
+temporais, a autocorrelação,
+
+22
+00:01:22.373 --> 00:01:26.873
+mostra que o consumo se repete a cada
+vinte e quatro horas e a cada sete dias.
+
+23
+00:01:26.913 --> 00:01:30.173
+A casa tem relógio. Por isso,
+a unidade de análise é o dia:
+
+24
+00:01:30.213 --> 00:01:35.153
+cada dia vira um vetor de vinte e
+quatro números, o consumo de cada hora.
+
+25
+00:01:36.527 --> 00:01:41.207
+Para agrupar os dias, usamos o K-Means
+e testamos de dois a dez grupos.
+
+26
+00:01:41.247 --> 00:01:42.147
+Primeiro, a regra do cotovelo:
+
+27
+00:01:42.187 --> 00:01:46.347
+cada grupo extra reduz o erro do modelo,
+mas o ganho cai de onze por cento,
+
+28
+00:01:46.387 --> 00:01:51.127
+no terceiro grupo, para menos de sete, no
+quarto, e quase não muda depois do quinto.
+
+29
+00:01:51.167 --> 00:01:53.087
+O cotovelo está entre três e cinco.
+
+30
+00:01:53.127 --> 00:01:55.087
+A silhueta descarta o cinco.
+
+31
+00:01:55.127 --> 00:01:58.807
+Entre três e quatro, quem
+decide é o enunciado:
+
+32
+00:01:58.847 --> 00:02:01.487
+só com quatro grupos aparece o
+perfil de quem fica em casa,
+
+33
+00:02:01.527 --> 00:02:03.187
+que é exatamente a pergunta dois.
+
+34
+00:02:03.227 --> 00:02:04.607
+E o resultado é estável:
+
+35
+00:02:04.647 --> 00:02:06.827
+refazendo o modelo com
+dez sementes aleatórias,
+
+36
+00:02:06.867 --> 00:02:10.627
+o índice de concordância fica em
+zero vírgula noventa e cinco,
+
+37
+00:02:10.667 --> 00:02:13.367
+numa escala em que um
+significa partições idênticas.
+
+38
+00:02:16.447 --> 00:02:20.707
+Resumindo as vinte e quatro horas
+em três eixos, nível de consumo,
+
+39
+00:02:20.747 --> 00:02:25.847
+rotina contra almoço, e manhã
+contra tarde, cada ponto é um dia.
+
+40
+00:02:25.887 --> 00:02:28.707
+As cores são os grupos que o
+algoritmo encontrou sozinho,
+
+41
+00:02:28.747 --> 00:02:30.287
+sem saber nada sobre datas.
+
+42
+00:02:33.080 --> 00:02:36.460
+E estes são os quatro jeitos
+dessa casa usar energia.
+
+43
+00:02:36.500 --> 00:02:41.320
+Em verde, o Dia Leve: casa pouco
+ocupada, consumo baixo e plano.
+
+44
+00:02:41.360 --> 00:02:46.360
+É o verão e as férias. Em
+azul, a Rotina de Dia Útil:
+
+45
+00:02:46.400 --> 00:02:51.440
+dois picos, de manhã e à noite, e um
+vale à tarde, quando todo mundo saiu.
+
+46
+00:02:51.480 --> 00:02:53.800
+Em dourado, a Casa Ocupada:
+
+47
+00:02:53.840 --> 00:02:57.020
+tem gente em casa, e o
+pico migra para o almoço.
+
+48
+00:02:57.060 --> 00:03:00.140
+E em vermelho, o Pico de Inverno:
+
+49
+00:03:00.180 --> 00:03:04.760
+frio e casa cheia, consumo alto o
+dia inteiro e o maior pico de todos,
+
+50
+00:03:04.800 --> 00:03:05.870
+às sete da noite.
+
+51
+00:03:07.413 --> 00:03:09.693
+Agora, as perguntas. Primeira:
+
+52
+00:03:09.733 --> 00:03:11.153
+quais são os picos do dia útil?
+
+53
+00:03:11.193 --> 00:03:16.013
+São dois: das sete às oito da
+manhã e das oito às nove da noite.
+
+54
+00:03:16.053 --> 00:03:18.973
+É a saída para o trabalho e a
+escola, e a volta para casa.
+
+55
+00:03:19.013 --> 00:03:20.753
+Segunda: e o fim de semana?
+
+56
+00:03:20.793 --> 00:03:22.253
+Ele não tem pico de manhã.
+
+57
+00:03:22.293 --> 00:03:25.113
+O consumo sobe devagar,
+forma um platô no almoço,
+
+58
+00:03:25.153 --> 00:03:28.153
+quarenta e três por
+cento acima do dia útil,
+
+59
+00:03:28.193 --> 00:03:31.393
+e chega ao máximo entre
+sete e oito da noite.
+
+60
+00:03:31.433 --> 00:03:35.013
+No grupo Pico de Inverno, formado
+sobretudo por fins de semana frios,
+
+61
+00:03:35.053 --> 00:03:39.663
+esse pico chega a três vírgula
+dois quilowatts-hora por hora.
+
+62
+00:03:41.093 --> 00:03:44.593
+Um detalhe importante: o
+algoritmo nunca recebeu a data.
+
+63
+00:03:44.633 --> 00:03:47.813
+Mesmo assim, quando pintamos
+cada dia com a cor do seu grupo,
+
+64
+00:03:47.853 --> 00:03:49.633
+o calendário reaparece.
+
+65
+00:03:49.673 --> 00:03:53.653
+Sábados e domingos em vermelho e
+dourado, semanas de trabalho em azul,
+
+66
+00:03:53.693 --> 00:03:56.093
+julho e agosto quase inteiros em verde.
+
+67
+00:03:57.560 --> 00:03:59.960
+Terceira pergunta: existem dias atípicos?
+
+68
+00:04:00.000 --> 00:04:03.480
+Sim, noventa e sete.
+
+69
+00:04:03.520 --> 00:04:09.960
+Oitenta e dois de consumo muito baixo,
+abaixo de nove vírgula seis quilowatts-hora.
+
+70
+00:04:10.000 --> 00:04:13.600
+Eles vêm em blocos. O maior
+é agosto de dois mil e oito:
+
+71
+00:04:13.640 --> 00:04:17.620
+vinte e sete dias com a casa
+vazia, só a geladeira ligada.
+
+72
+00:04:17.660 --> 00:04:21.220
+São as férias. Na outra ponta,
+três dias de consumo muito alto,
+
+73
+00:04:21.260 --> 00:04:23.480
+todos no inverno de dois mil e seis.
+
+74
+00:04:23.520 --> 00:04:27.740
+O recorde, setenta e nove
+vírgula seis quilowatts-hora,
+
+75
+00:04:27.780 --> 00:04:30.000
+foi no sábado antes do Natal.
+
+76
+00:04:30.040 --> 00:04:31.460
+E doze dias com consumo normal,
+
+77
+00:04:31.500 --> 00:04:33.860
+mas com um formato que não
+se parece com nenhum padrão.
+
+78
+00:04:35.447 --> 00:04:40.027
+Agora, a tarifa. Simulamos uma tarifa
+horária no formato da Tarifa Branca:
+
+79
+00:04:40.067 --> 00:04:43.427
+mais cara das sete às dez da noite
+nos dias úteis, mais barata no resto,
+
+80
+00:04:43.467 --> 00:04:46.607
+e com a mesma receita total
+para a distribuidora.
+
+81
+00:04:46.647 --> 00:04:47.387
+O resultado surpreende.
+
+82
+00:04:47.427 --> 00:04:52.927
+Quem paga mais é a Rotina de Dia Útil,
+doze vírgula oito por cento a mais,
+
+83
+00:04:52.967 --> 00:04:55.407
+porque o pico dela cai
+exatamente na ponta.
+
+84
+00:04:55.447 --> 00:04:58.467
+E o Pico de Inverno, que é
+quem mais consome, paga menos:
+
+85
+00:04:58.507 --> 00:05:00.367
+a maioria desses dias é fim de semana.
+
+86
+00:05:00.407 --> 00:05:01.697
+Volume não é ponta.
+
+87
+00:05:04.680 --> 00:05:07.420
+Daí saem quatro planos. Para a Rotina,
+
+88
+00:05:07.460 --> 00:05:13.320
+tarifa horária com bônus para quem desloca a máquina
+de lavar e a lava-louças para depois das dez da noite.
+
+89
+00:05:13.360 --> 00:05:15.980
+Só isso já corta a alta quase pela metade.
+
+90
+00:05:16.020 --> 00:05:18.780
+Para a Casa Ocupada, tarifa horária pura.
+
+91
+00:05:18.820 --> 00:05:21.060
+Para o Pico de Inverno, um plano sazonal.
+
+92
+00:05:21.100 --> 00:05:23.340
+E para o Dia Leve, uma tarifa simples.
+
+93
+00:05:24.853 --> 00:05:29.013
+Uma ressalva honesta: estudamos
+uma única casa, na França.
+
+94
+00:05:29.053 --> 00:05:32.453
+Os grupos são tipos de
+dia, não tipos de cliente.
+
+95
+00:05:32.493 --> 00:05:38.853
+O próximo passo é aplicar o mesmo método a milhares de
+medidores e deixar que cada cliente encontre o seu plano.

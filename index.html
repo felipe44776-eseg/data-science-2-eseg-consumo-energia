@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Consumo Residencial · Data Science 2</title>
+<meta name="description" content="Segmentação de perfis de consumo residencial por agrupamento (K-Means) para desenhar tarifas. Projeto final de Data Science 2, Faculdade ESEG.">
+<style>
+@font-face{font-family:"Public Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url("marca/public-sans-latin-wght.woff2") format("woff2");}
+:root{
+  --navy:#08223D; --turq:#00A1B8; --ouro:#F1B634;
+  --page:#E5E6E7; --surface:#FFFFFF; --ink:#0F1322; --ink-2:#333643; --muted:#474A56; --rule:#C2C3C7;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--ink);font-family:"Public Sans","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;line-height:1.5}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+
+header{background:var(--navy);color:#fff;border-bottom:6px solid var(--ouro)}
+header .wrap{padding-top:28px;padding-bottom:36px}
+.logo{height:40px;width:auto;display:block}
+.kicker{margin:28px 0 8px;font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--turq)}
+h1{margin:0;font-size:clamp(28px,5vw,46px);line-height:1.1;font-weight:800;letter-spacing:-.01em;max-width:22ch}
+.lead{margin:14px 0 0;font-size:clamp(16px,2.2vw,19px);color:#D6DCE3;max-width:62ch}
+.equipe{display:flex;flex-wrap:wrap;gap:8px 28px;margin:24px 0 0;padding:0;list-style:none;font-size:15px;color:#fff}
+.equipe span{color:#9FB0C2;font-weight:400}
+.equipe b{font-weight:600}
+
+main .wrap{padding-top:32px;padding-bottom:48px}
+section{margin:0 0 36px}
+h2{margin:0 0 14px;font-size:22px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:10px}
+h2::before{content:"";width:6px;height:22px;background:var(--turq);border-radius:2px}
+
+.player{background:#000;border-radius:10px;overflow:hidden;box-shadow:0 8px 28px rgba(8,34,61,.18)}
+.player video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#000}
+
+.acoes{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0 0}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;border:2px solid var(--navy);transition:transform .08s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn:focus-visible{outline:3px solid var(--ouro);outline-offset:2px}
+.btn.primario{background:var(--navy);color:#fff}
+.btn.secundario{background:var(--surface);color:var(--navy)}
+.nota{margin:10px 0 0;font-size:14px;color:var(--muted)}
+
+.pdf{background:var(--surface);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.pdf iframe{display:block;width:100%;height:min(80vh,760px);border:0}
+
+.perguntas{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--rule);border-top:4px solid var(--turq);border-radius:8px;padding:16px 18px}
+.card h3{margin:0 0 6px;font-size:16px;color:var(--navy)}
+.card p{margin:0;font-size:15px;color:var(--ink-2)}
+
+footer{border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+footer .wrap{padding-top:18px;padding-bottom:28px}
+footer p{margin:0 0 6px}
+
+@media (max-width:600px){
+  header .wrap{padding-top:20px;padding-bottom:28px}
+  .logo{height:32px}
+  .btn{flex:1 1 100%;justify-content:center}
+  .pdf iframe{height:70vh}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <img class="logo" src="marca/eseg-logo-branco.svg" alt="Faculdade ESEG">
+    <p class="kicker">Data Science 2 · Projeto final</p>
+    <h1>Segmentação de perfis de consumo residencial</h1>
+    <p class="lead">Agrupamos quatro anos de medições de energia de uma casa em tipos de dia e usamos esses tipos para simular quem pagaria mais e quem pagaria menos numa tarifa por horário.</p>
+    <ul class="equipe">
+      <li><span>Integrantes</span> <b>Felipe Marins</b> (RA 44776) · <b>Phelipe Torres Pamponet da França</b> (RA 46643)</li>
+      <li><span>Professor</span> <b>Marino Catarino</b></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section aria-labelledby="t-video">
+      <h2 id="t-video">Vídeo</h2>
+      <div class="player">
+        <video controls preload="metadata" playsinline poster="capa.jpg">
+          <source src="video.mp4" type="video/mp4">
+          <track kind="subtitles" src="legendas.vtt" srclang="pt-BR" label="Português">
+          Seu navegador não reproduz vídeo. <a href="video.mp4">Baixe o arquivo</a>.
+        </video>
+      </div>
+      <div class="acoes">
+        <a class="btn primario" href="slides.html">Abrir os slides</a>
+        <a class="btn secundario" href="apresentacao.pdf" download>Baixar PDF</a>
+        <a class="btn secundario" href="https://github.com/felipe44776-eseg/data-science-2-eseg-consumo-energia/releases/download/v1.0/Casas_ESEG_1920x1080.mp4">Vídeo em qualidade original</a>
+      </div>
+      <p class="nota">Os slides abrem no navegador. Use as setas do teclado para avançar e F11 para tela cheia. As legendas ficam no menu do player.</p>
+    </section>
+
+    <section aria-labelledby="t-perguntas">
+      <h2 id="t-perguntas">As três perguntas</h2>
+      <div class="perguntas">
+        <div class="card"><h3>1. Picos do dia útil</h3><p>Dois picos: de manhã, na saída para o trabalho, e à noite, na volta para casa. À tarde o consumo cai.</p></div>
+        <div class="card"><h3>2. Fim de semana</h3><p>Não há pico da manhã. Com gente em casa, o consumo forma um platô no almoço e chega ao máximo no começo da noite.</p></div>
+        <div class="card"><h3>3. Dias atípicos</h3><p>Sim, 97 dias. A maioria é de consumo muito baixo, em férias com a casa vazia. Poucos são de consumo muito alto, todos no inverno.</p></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="t-pdf">
+      <h2 id="t-pdf">Apresentação em PDF</h2>
+      <div class="pdf">
+        <iframe src="apresentacao.pdf#view=FitH" title="Apresentação em PDF" loading="lazy"></iframe>
+      </div>
+      <p class="nota">Se o PDF não aparecer (comum no celular), use o botão <a href="apresentacao.pdf">Baixar PDF</a>.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Dados: Hebrail, G. &amp; Berard, A. <i>Individual Household Electric Power Consumption</i>. UCI Machine Learning Repository (2012), espelho no Kaggle indicado no enunciado.</p>
+    <p>Faculdade ESEG · Data Science 2 · 2026. Fonte Public Sans sob licença <a href="marca/OFL-public-sans.txt">SIL OFL</a>.</p>
+  </div>
+</footer>
+</body>
+</html>
